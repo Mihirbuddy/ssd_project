@@ -6,6 +6,11 @@
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto"; -- gen_random_uuid()
 
+DROP TABLE IF EXISTS appointments;
+DROP TABLE IF EXISTS wallet_audit_logs;
+DROP TABLE IF EXISTS clinics;
+DROP TABLE IF EXISTS patients;
+
 CREATE TABLE patients (
     id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name         VARCHAR(120) NOT NULL,
