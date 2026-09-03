@@ -1,0 +1,137 @@
+{
+  explainVersion: '1',
+  queryPlanner: {
+    namespace: 'careconnect.PatientReviews',
+    parsedQuery: {
+      clinicId: {
+        '$eq': 'C1'
+      }
+    },
+    indexFilterSet: false,
+    queryHash: 'D20364B7',
+    planCacheShapeHash: 'D20364B7',
+    planCacheKey: '813FB5B6',
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'FETCH',
+      inputStage: {
+        stage: 'IXSCAN',
+        keyPattern: {
+          clinicId: 1
+        },
+        indexName: 'clinicId_1',
+        isMultiKey: false,
+        multiKeyPaths: {
+          clinicId: []
+        },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: {
+          clinicId: [
+            '["C1", "C1"]'
+          ]
+        }
+      }
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 1,
+    executionTimeMillis: 1,
+    totalKeysExamined: 1,
+    totalDocsExamined: 1,
+    executionStages: {
+      isCached: false,
+      stage: 'FETCH',
+      nReturned: 1,
+      executionTimeMillisEstimate: 1,
+      works: 2,
+      advanced: 1,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      docsExamined: 1,
+      alreadyHasObj: 0,
+      inputStage: {
+        stage: 'IXSCAN',
+        nReturned: 1,
+        executionTimeMillisEstimate: 1,
+        works: 2,
+        advanced: 1,
+        needTime: 0,
+        needYield: 0,
+        saveState: 0,
+        restoreState: 0,
+        isEOF: 1,
+        keyPattern: {
+          clinicId: 1
+        },
+        indexName: 'clinicId_1',
+        isMultiKey: false,
+        multiKeyPaths: {
+          clinicId: []
+        },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: {
+          clinicId: [
+            '["C1", "C1"]'
+          ]
+        },
+        keysExamined: 1,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0
+      }
+    }
+  },
+  queryShapeHash: '83DE5D845D2709C15D15F40CAD1C189D080B1260617213F2F8F65127422E1895',
+  command: {
+    find: 'PatientReviews',
+    filter: {
+      clinicId: 'C1'
+    },
+    '$db': 'careconnect'
+  },
+  serverInfo: {
+    host: 'ac-sxan1ri-shard-00-02.cor7eni.mongodb.net',
+    port: 27017,
+    version: '8.0.29',
+    gitVersion: '559d67c651f7393e62757234a0b25cb7a8622148'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 16793600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 33554432,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1788276704, i: 10 }),
+    signature: {
+      hash: Binary.createFromBase64('E09UNYIo1wDshrSJWNkyXbaKDyQ=', 0),
+      keyId: Long('7643119123295109123')
+    }
+  },
+  operationTime: Timestamp({ t: 1788276704, i: 10 })
+}

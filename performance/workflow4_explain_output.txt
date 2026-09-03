@@ -1,0 +1,282 @@
+{
+  explainVersion: '1',
+  stages: [
+    {
+      '$cursor': {
+        queryPlanner: {
+          namespace: 'careconnect.PatientReviews',
+          parsedQuery: {},
+          indexFilterSet: false,
+          queryHash: '67406CC1',
+          planCacheShapeHash: '67406CC1',
+          planCacheKey: 'EEA982B5',
+          optimizationTimeMillis: 0,
+          maxIndexedOrSolutionsReached: false,
+          maxIndexedAndSolutionsReached: false,
+          maxScansToExplodeReached: false,
+          prunedSimilarIndexes: false,
+          winningPlan: {
+            isCached: false,
+            stage: 'PROJECTION_SIMPLE',
+            transformBy: {
+              bedsideMannerTags: 1,
+              rating: 1,
+              _id: 0
+            },
+            inputStage: {
+              stage: 'COLLSCAN',
+              direction: 'forward'
+            }
+          },
+          rejectedPlans: []
+        },
+        executionStats: {
+          executionSuccess: true,
+          nReturned: 100000,
+          executionTimeMillis: 336,
+          totalKeysExamined: 0,
+          totalDocsExamined: 100000,
+          executionStages: {
+            isCached: false,
+            stage: 'PROJECTION_SIMPLE',
+            nReturned: 100000,
+            executionTimeMillisEstimate: 94,
+            works: 100001,
+            advanced: 100000,
+            needTime: 0,
+            needYield: 0,
+            saveState: 16,
+            restoreState: 16,
+            isEOF: 1,
+            transformBy: {
+              bedsideMannerTags: 1,
+              rating: 1,
+              _id: 0
+            },
+            inputStage: {
+              stage: 'COLLSCAN',
+              nReturned: 100000,
+              executionTimeMillisEstimate: 48,
+              works: 100001,
+              advanced: 100000,
+              needTime: 0,
+              needYield: 0,
+              saveState: 16,
+              restoreState: 16,
+              isEOF: 1,
+              direction: 'forward',
+              docsExamined: 100000
+            }
+          }
+        }
+      },
+      nReturned: Long('100000'),
+      executionTimeMillisEstimate: Long('107')
+    },
+    {
+      '$facet': {
+        ratingBuckets: [
+          {
+            '$internalFacetTeeConsumer': {},
+            nReturned: Long('100000'),
+            executionTimeMillisEstimate: Long('114')
+          },
+          {
+            '$group': {
+              _id: '$rating',
+              count: {
+                '$sum': {
+                  '$const': 1
+                }
+              }
+            },
+            maxAccumulatorMemoryUsageBytes: {
+              count: Long('640')
+            },
+            totalOutputDataSizeBytes: Long('1225'),
+            usedDisk: false,
+            spills: Long('0'),
+            spilledDataStorageSize: Long('0'),
+            numBytesSpilledEstimate: Long('0'),
+            spilledRecords: Long('0'),
+            nReturned: Long('5'),
+            executionTimeMillisEstimate: Long('150')
+          },
+          {
+            '$sort': {
+              sortKey: {
+                _id: 1
+              }
+            },
+            totalDataSizeSortedBytesEstimate: Long('1265'),
+            usedDisk: false,
+            spills: Long('0'),
+            spilledDataStorageSize: Long('0'),
+            nReturned: Long('5'),
+            executionTimeMillisEstimate: Long('150')
+          }
+        ],
+        frequentTags: [
+          {
+            '$internalFacetTeeConsumer': {},
+            nReturned: Long('100000'),
+            executionTimeMillisEstimate: Long('4')
+          },
+          {
+            '$unwind': {
+              path: '$bedsideMannerTags'
+            },
+            nReturned: Long('200285'),
+            executionTimeMillisEstimate: Long('78')
+          },
+          {
+            '$group': {
+              _id: '$bedsideMannerTags',
+              count: {
+                '$sum': {
+                  '$const': 1
+                }
+              }
+            },
+            maxAccumulatorMemoryUsageBytes: {
+              count: Long('768')
+            },
+            totalOutputDataSizeBytes: Long('1470'),
+            usedDisk: false,
+            spills: Long('0'),
+            spilledDataStorageSize: Long('0'),
+            numBytesSpilledEstimate: Long('0'),
+            spilledRecords: Long('0'),
+            nReturned: Long('6'),
+            executionTimeMillisEstimate: Long('119')
+          },
+          {
+            '$sort': {
+              sortKey: {
+                count: -1
+              }
+            },
+            totalDataSizeSortedBytesEstimate: Long('1518'),
+            usedDisk: false,
+            spills: Long('0'),
+            spilledDataStorageSize: Long('0'),
+            nReturned: Long('6'),
+            executionTimeMillisEstimate: Long('119')
+          }
+        ],
+        globalAverage: [
+          {
+            '$internalFacetTeeConsumer': {},
+            nReturned: Long('100000'),
+            executionTimeMillisEstimate: Long('52')
+          },
+          {
+            '$group': {
+              _id: {
+                '$const': null
+              },
+              averageRating: {
+                '$avg': '$rating'
+              }
+            },
+            maxAccumulatorMemoryUsageBytes: {
+              averageRating: Long('104')
+            },
+            totalOutputDataSizeBytes: Long('245'),
+            usedDisk: false,
+            spills: Long('0'),
+            spilledDataStorageSize: Long('0'),
+            numBytesSpilledEstimate: Long('0'),
+            spilledRecords: Long('0'),
+            nReturned: Long('1'),
+            executionTimeMillisEstimate: Long('65')
+          }
+        ]
+      },
+      nReturned: Long('1'),
+      executionTimeMillisEstimate: Long('334')
+    }
+  ],
+  queryShapeHash: '911B142D80C25D41A08B698C4979ACE0DC899D1FC984EE796F62EF15EC4D1686',
+  serverInfo: {
+    host: 'ac-sxan1ri-shard-00-01.cor7eni.mongodb.net',
+    port: 27017,
+    version: '8.0.30',
+    gitVersion: '360770fbc9b6a893748150d2ab2799e119b9fac9'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 16793600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 33554432,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  command: {
+    aggregate: 'PatientReviews',
+    pipeline: [
+      {
+        '$facet': {
+          ratingBuckets: [
+            {
+              '$group': {
+                _id: '$rating',
+                count: {
+                  '$sum': 1
+                }
+              }
+            },
+            {
+              '$sort': {
+                _id: 1
+              }
+            }
+          ],
+          frequentTags: [
+            {
+              '$unwind': '$bedsideMannerTags'
+            },
+            {
+              '$group': {
+                _id: '$bedsideMannerTags',
+                count: {
+                  '$sum': 1
+                }
+              }
+            },
+            {
+              '$sort': {
+                count: -1
+              }
+            }
+          ],
+          globalAverage: [
+            {
+              '$group': {
+                _id: null,
+                averageRating: {
+                  '$avg': '$rating'
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    cursor: {},
+    '$db': 'careconnect'
+  },
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1788437673, i: 2 }),
+    signature: {
+      hash: Binary.createFromBase64('84aVuo1edf5j4e7sXMrj5tJ5B3c=', 0),
+      keyId: Long('7643119123295109123')
+    }
+  },
+  operationTime: Timestamp({ t: 1788437673, i: 2 })
+}
