@@ -27,3 +27,6 @@ FOR EACH ROW
 WHEN (OLD.hsa_balance IS DISTINCT FROM NEW.hsa_balance)
 EXECUTE FUNCTION log_wallet_balance_change();
 
+
+
+
