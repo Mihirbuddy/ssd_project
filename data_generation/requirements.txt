@@ -1,0 +1,5 @@
+pymongo
+python-dotenv
+certifi
+psycopg2-binary==2.9.9
+Faker==25.2.0

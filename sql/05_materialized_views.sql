@@ -23,5 +23,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Usage:
--- SELECT refresh_clinic_monthly_discharges();
+--Usage:
+ /*SELECT refresh_clinic_monthly_discharges();
+
+ SELECT *
+FROM clinic_monthly_discharges
+ORDER BY month, clinic_name;*/
