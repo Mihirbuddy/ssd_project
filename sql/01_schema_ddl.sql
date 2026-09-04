@@ -6,6 +6,8 @@
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto"; -- gen_random_uuid()
 
+DROP MATERIALIZED VIEW IF EXISTS clinic_monthly_discharges;
+
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS wallet_audit_logs;
 DROP TABLE IF EXISTS clinics;

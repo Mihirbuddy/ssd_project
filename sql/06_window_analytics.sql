@@ -8,6 +8,7 @@ WITH daily_revenue AS (
         created_at::date AS day,
         SUM(copay_amount) AS revenue
     FROM appointments
+    WHERE created_at >= (CURRENT_DATE - INTERVAL '30 days')
     GROUP BY clinic_id, created_at::date
 ),
 moving_avg AS (
