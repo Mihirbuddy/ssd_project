@@ -1,3 +1,12 @@
+# GITHUB URL
+```text
+https://github.com/Mihirbuddy/ssd_project/
+```
+# LAST COMMIT HASH
+```text
+abc
+```
+
 # CareConnect – On-Demand Telemedicine
 
 CareConnect is a database-focused telemedicine project built with PostgreSQL and MongoDB.
@@ -185,6 +194,9 @@ mongosh "mongodb+srv://YOUR_CLUSTER.mongodb.net/careconnect?appName=Cluster0" \
   > performance/mongo_execution_stats.json
 ```
 
+## MongoDB Performance Analysis
+
+The mongo_execution_stats.json file contains execution statistics for both MongoDB workflows. Workflow 3 uses the location_2dsphere index through the GEO_NEAR_2DSPHERE stage, allowing MongoDB to efficiently find the nearest nurse without scanning the entire collection. Workflow 4 uses a COLLSCAN because its $facet pipeline requires every patient review to calculate rating counts, frequent tags, and the overall average. Metrics such as executionTimeMillis, totalKeysExamined, and totalDocsExamined indicate the cost and efficiency of each query.
 Validate the generated JSON:
 
 ```bash
