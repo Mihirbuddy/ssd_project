@@ -181,6 +181,7 @@ db.NursePings.getIndexes()
 
 Python files must be run from the machine terminal. MongoDB JavaScript files can be run with `mongosh --file` or with `load()` inside `mongosh`.
 
+## 7. Performance evidence
 
 ## PostgreSQL Performance Analysis (Workflow 2)
 Workflow 2 achieves an Index Only Scan by utilizing the covering index idx_appointments_discharged_analytics. By filtering the created_at timestamp directly at the index level and including the copay_amount payload, the query executes with zero heap fetches and avoids a costly sequential scan on the appointments table.
