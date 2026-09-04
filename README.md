@@ -181,8 +181,15 @@ db.NursePings.getIndexes()
 
 Python files must be run from the machine terminal. MongoDB JavaScript files can be run with `mongosh --file` or with `load()` inside `mongosh`.
 
-## 7. Performance evidence
 
+## PostgreSQL Performance Analysis (Workflow 2)
+Workflow 2 achieves an Index Only Scan by utilizing the covering index idx_appointments_discharged_analytics. By filtering the created_at timestamp directly at the index level and including the copay_amount payload, the query executes with zero heap fetches and avoids a costly sequential scan on the appointments table.
+
+Generate PostgreSQL execution statistics:
+```bash
+   psql -U YOUR_USERNAME -d careconnect -c "EXPLAIN (ANALYZE, BUFFERS, VERBOSE, FORMAT JSON) WITH daily_revenue AS (SELECT clinic_id, created_at::date AS day, SUM(copay_amount) AS revenue FROM appointments WHERE created_at >= (CURRENT_DATE - INTERVAL '30 days') GROUP BY clinic_id, created_at::date), moving_avg AS (SELECT clinic_id, day, revenue, AVG(revenue) OVER (PARTITION BY clinic_id ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS revenue_7day_avg FROM daily_revenue) SELECT clinic_id, day, revenue, ROUND(revenue_7day_avg, 2) AS revenue_7day_avg, DENSE_RANK() OVER (PARTITION BY day ORDER BY revenue_7day_avg DESC) AS clinic_rank_that_day FROM moving_avg ORDER BY day, clinic_rank_that_day;" > performance/postgres_execution_stats.txt
+```
+## MongoDB Performance Analysis
 Generate MongoDB execution statistics:
 
 ```bash
@@ -193,8 +200,6 @@ mongosh "mongodb+srv://YOUR_CLUSTER.mongodb.net/careconnect?appName=Cluster0" \
   --file performance/generate_execution_stats.js \
   > performance/mongo_execution_stats.json
 ```
-
-## MongoDB Performance Analysis
 
 The mongo_execution_stats.json file contains execution statistics for both MongoDB workflows. Workflow 3 uses the location_2dsphere index through the GEO_NEAR_2DSPHERE stage, allowing MongoDB to efficiently find the nearest nurse without scanning the entire collection. Workflow 4 uses a COLLSCAN because its $facet pipeline requires every patient review to calculate rating counts, frequent tags, and the overall average. Metrics such as executionTimeMillis, totalKeysExamined, and totalDocsExamined indicate the cost and efficiency of each query.
 Validate the generated JSON:
