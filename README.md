@@ -270,6 +270,54 @@ python -m json.tool performance/mongo_execution_stats.json > /dev/null
 
 See `performance/README.md` for the PostgreSQL `EXPLAIN` and MongoDB `explain("executionStats")` checks.
 
+performance proof
+
+```bash
+(ssd) (base) mihirpradhan@Mihirs-MacBook-Air database_design % grep -E '"stage"|"indexName"|"executionTimeMillis"|"totalKeysExamined"|"totalDocsExamined"' \
+  performance/mongo_execution_stats.json
+              "stage": "FETCH",
+                "stage": "GEO_NEAR_2DSPHERE",
+                "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+            "executionTimeMillis": {
+            "totalKeysExamined": {
+            "totalDocsExamined": {
+              "stage": "FETCH",
+                "stage": "GEO_NEAR_2DSPHERE",
+                "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+                    "stage": "FETCH",
+                      "stage": "IXSCAN",
+                      "indexName": "location_2dsphere",
+              "stage": "PROJECTION_SIMPLE",
+                "stage": "COLLSCAN",
+            "executionTimeMillis": {
+            "totalKeysExamined": {
+            "totalDocsExamined": {
+              "stage": "PROJECTION_SIMPLE",
+                "stage": "COLLSCAN",
+(ssd) (base) mihirpradhan@Mihirs-MacBook-Air database_design % 
+```
+
 ## Database relationship
 
 `PatientReviews.patientId` and `PatientReviews.clinicId` are logical references to PostgreSQL patients and clinics. MongoDB cannot enforce foreign keys across databases, so the application or seeding process must ensure that these IDs exist in PostgreSQL. Patient and clinic master records are not duplicated in MongoDB.
