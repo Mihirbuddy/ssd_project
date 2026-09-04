@@ -3,7 +3,7 @@
 
 const dbCare = db.getSiblingDB("careconnect");
 
-dbCare.PatientReviews.aggregate([
+const result=dbCare.PatientReviews.aggregate([
 
     {
         $facet: {
@@ -56,3 +56,5 @@ dbCare.PatientReviews.aggregate([
     }
 
 ]);
+
+printjson(result);

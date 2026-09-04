@@ -13,7 +13,7 @@ const patientLatitude = 17.3850;
 
 // Find nearest active nurse
 
-dbCare.NursePings.aggregate([
+const result =dbCare.NursePings.aggregate([
 
     {
         $geoNear: {
@@ -43,3 +43,5 @@ dbCare.NursePings.aggregate([
     }
 
 ]);
+
+printjson(result);

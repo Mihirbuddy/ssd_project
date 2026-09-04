@@ -1,0 +1,163 @@
+{
+  "database": "careconnect",
+  "description": "Schema map for the MongoDB portion of CareConnect",
+  "collections": {
+    "MedicalCatalogs": {
+      "purpose": "Stores specialist and medication catalog entries",
+      "requiredFields": ["catalogType", "name", "createdAt"],
+      "fields": {
+        "_id": {
+          "bsonType": "objectId",
+          "generatedByMongoDB": true
+        },
+        "catalogType": {
+          "bsonType": "string",
+          "allowedValues": ["SPECIALIST", "MEDICATION"]
+        },
+        "name": {
+          "bsonType": "string"
+        },
+        "specialization": {
+          "bsonType": "string",
+          "required": false
+        },
+        "availability": {
+          "bsonType": "array",
+          "required": false
+        },
+        "medicationDetails": {
+          "bsonType": "object",
+          "required": false
+        },
+        "createdAt": {
+          "bsonType": "date"
+        }
+      },
+      "indexes": [
+        {
+          "name": "_id_",
+          "key": { "_id": 1 },
+          "type": "default"
+        }
+      ]
+    },
+    "PatientReviews": {
+      "purpose": "Stores patient ratings, comments, and bedside-manner tags for clinics",
+      "requiredFields": [
+        "patientId",
+        "clinicId",
+        "rating",
+        "bedsideMannerTags",
+        "createdAt"
+      ],
+      "fields": {
+        "_id": {
+          "bsonType": "objectId",
+          "generatedByMongoDB": true
+        },
+        "patientId": {
+          "bsonType": "string",
+          "logicalReference": "PostgreSQL patients"
+        },
+        "clinicId": {
+          "bsonType": "string",
+          "logicalReference": "PostgreSQL clinics"
+        },
+        "rating": {
+          "bsonType": "int",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "bedsideMannerTags": {
+          "bsonType": "array",
+          "items": { "bsonType": "string" }
+        },
+        "comment": {
+          "bsonType": "string",
+          "required": false
+        },
+        "createdAt": {
+          "bsonType": "date"
+        }
+      },
+      "indexes": [
+        {
+          "name": "_id_",
+          "key": { "_id": 1 },
+          "type": "default"
+        },
+        {
+          "name": "clinicId_1",
+          "key": { "clinicId": 1 },
+          "type": "ascending"
+        }
+      ]
+    },
+    "NursePings": {
+      "purpose": "Stores temporary live locations and availability of mobile nurses",
+      "requiredFields": ["nurseId", "location", "isActive", "createdAt"],
+      "fields": {
+        "_id": {
+          "bsonType": "objectId",
+          "generatedByMongoDB": true
+        },
+        "nurseId": {
+          "bsonType": "string"
+        },
+        "location": {
+          "bsonType": "object",
+          "format": "GeoJSON Point",
+          "requiredFields": ["type", "coordinates"],
+          "properties": {
+            "type": {
+              "bsonType": "string",
+              "allowedValues": ["Point"]
+            },
+            "coordinates": {
+              "bsonType": "array",
+              "order": ["longitude", "latitude"]
+            }
+          }
+        },
+        "isActive": {
+          "bsonType": "bool"
+        },
+        "createdAt": {
+          "bsonType": "date"
+        }
+      },
+      "indexes": [
+        {
+          "name": "_id_",
+          "key": { "_id": 1 },
+          "type": "default"
+        },
+        {
+          "name": "location_2dsphere",
+          "key": { "location": "2dsphere" },
+          "type": "geospatial"
+        },
+        {
+          "name": "createdAt_1",
+          "key": { "createdAt": 1 },
+          "type": "TTL",
+          "expireAfterSeconds": 7200
+        }
+      ]
+    }
+  },
+  "crossDatabaseRelationships": [
+    {
+      "from": "PatientReviews.patientId",
+      "to": "PostgreSQL patients",
+      "relationship": "logical reference",
+      "enforcedByMongoDB": false
+    },
+    {
+      "from": "PatientReviews.clinicId",
+      "to": "PostgreSQL clinics",
+      "relationship": "logical reference",
+      "enforcedByMongoDB": false
+    }
+  ]
+}

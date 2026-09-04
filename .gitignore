@@ -1,1 +1,26 @@
+# Environment variables and credentials
 .env
+.env.*
+
+# Keep an example configuration file
+!.env.example
+
+# Python virtual environments
+ssd/
+venv/
+.venv/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# macOS-generated files
+.DS_Store
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# MongoDB workflow output files
+mongo/output*.txt

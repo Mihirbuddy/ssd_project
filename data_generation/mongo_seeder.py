@@ -141,7 +141,7 @@ print("PatientReviews inserted:", len(reviews))
 # 3. NursePings
 # --------------------------------------------------
 
-TOTAL_PINGS = 200000
+TOTAL_PINGS = 500000
 BATCH_SIZE = 5000
 
 inserted = 0
